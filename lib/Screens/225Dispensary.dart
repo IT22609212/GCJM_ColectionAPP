@@ -1,12 +1,15 @@
+//statefull widget
+
 import 'package:flutter/material.dart';
+import 'package:gcjm_collection_app/Screens/225Dispensary.dart';
 import 'package:gcjm_collection_app/color/AppColors.dart';
 
-class DematagodePlace extends StatefulWidget {
+class Garden225 extends StatefulWidget {
   @override
-  _DematagodePlaceState createState() => _DematagodePlaceState();
+  _Garden225State createState() => _Garden225State();
 }
 
-class _DematagodePlaceState extends State<DematagodePlace> {
+class _Garden225State extends State<Garden225> {
   final List<String> months = [
     'JAN',
     'FEB',
@@ -27,7 +30,7 @@ class _DematagodePlaceState extends State<DematagodePlace> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Dematagoda Place',
+          'Dispensary Garden',
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
@@ -42,7 +45,7 @@ class _DematagodePlaceState extends State<DematagodePlace> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildCard('GCJM/DP'),
+                  _buildCard('GC/KPDG'),
                   _buildCard('001'),
                   Card(
                     child: Padding(
@@ -184,7 +187,7 @@ class _DematagodePlaceState extends State<DematagodePlace> {
                           Icon(Icons.location_on, color: Colors.grey),
                           SizedBox(width: 8),
                           Text(
-                            'Address: 108 Dematagoda Place',
+                            'Address: 225/1 SriDhamma Mawatha ',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -240,16 +243,4 @@ class _DematagodePlaceState extends State<DematagodePlace> {
       ),
     );
   }
-
-  // Widget _buildInfoCard(String text) {
-  //   return Card(
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(16),
-  //       child: Text(
-  //         text,
-  //         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-  //       ),
-  //     ),
-  //   );
-  // }
 }

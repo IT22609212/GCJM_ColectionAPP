@@ -1,12 +1,14 @@
+//statfull widget
+
 import 'package:flutter/material.dart';
 import 'package:gcjm_collection_app/color/AppColors.dart';
 
-class DematagodePlace extends StatefulWidget {
+class HawanaGarden extends StatefulWidget {
   @override
-  _DematagodePlaceState createState() => _DematagodePlaceState();
+  _HawanaGardenState createState() => _HawanaGardenState();
 }
 
-class _DematagodePlaceState extends State<DematagodePlace> {
+class _HawanaGardenState extends State<HawanaGarden> {
   final List<String> months = [
     'JAN',
     'FEB',
@@ -27,7 +29,7 @@ class _DematagodePlaceState extends State<DematagodePlace> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Dematagoda Place',
+          'Hawana Garden',
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
@@ -42,7 +44,7 @@ class _DematagodePlaceState extends State<DematagodePlace> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildCard('GCJM/DP'),
+                  _buildCard('GC/HG'),
                   _buildCard('001'),
                   Card(
                     child: Padding(
@@ -184,7 +186,7 @@ class _DematagodePlaceState extends State<DematagodePlace> {
                           Icon(Icons.location_on, color: Colors.grey),
                           SizedBox(width: 8),
                           Text(
-                            'Address: 108 Dematagoda Place',
+                            'Address: 414 Hawana Garden',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -240,16 +242,4 @@ class _DematagodePlaceState extends State<DematagodePlace> {
       ),
     );
   }
-
-  // Widget _buildInfoCard(String text) {
-  //   return Card(
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(16),
-  //       child: Text(
-  //         text,
-  //         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-  //       ),
-  //     ),
-  //   );
-  // }
 }

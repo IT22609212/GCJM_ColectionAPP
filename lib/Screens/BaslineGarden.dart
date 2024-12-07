@@ -1,12 +1,15 @@
+//staefull widget
+
 import 'package:flutter/material.dart';
+
 import 'package:gcjm_collection_app/color/AppColors.dart';
 
-class DematagodePlace extends StatefulWidget {
+class BaslineGarden extends StatefulWidget {
   @override
-  _DematagodePlaceState createState() => _DematagodePlaceState();
+  _BaslineGardenState createState() => _BaslineGardenState();
 }
 
-class _DematagodePlaceState extends State<DematagodePlace> {
+class _BaslineGardenState extends State<BaslineGarden> {
   final List<String> months = [
     'JAN',
     'FEB',
@@ -240,16 +243,4 @@ class _DematagodePlaceState extends State<DematagodePlace> {
       ),
     );
   }
-
-  // Widget _buildInfoCard(String text) {
-  //   return Card(
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(16),
-  //       child: Text(
-  //         text,
-  //         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-  //       ),
-  //     ),
-  //   );
-  // }
 }
