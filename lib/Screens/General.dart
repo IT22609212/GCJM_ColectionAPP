@@ -1,15 +1,15 @@
-//staefull widget
+//statefull widget
 
 import 'package:flutter/material.dart';
 
 import 'package:gcjm_collection_app/color/AppColors.dart';
 
-class BaslineGarden extends StatefulWidget {
+class General extends StatefulWidget {
   @override
-  _BaslineGardenState createState() => _BaslineGardenState();
+  _GeneralState createState() => _GeneralState();
 }
 
-class _BaslineGardenState extends State<BaslineGarden> {
+class _GeneralState extends State<General> {
   final List<String> months = [
     'JAN',
     'FEB',
@@ -30,7 +30,7 @@ class _BaslineGardenState extends State<BaslineGarden> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Basline Garden',
+          'Genral',
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
@@ -45,7 +45,7 @@ class _BaslineGardenState extends State<BaslineGarden> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildCard('GCJM/BG'),
+                  _buildCard('GCJM/DP'),
                   _buildCard('001'),
                   Card(
                     child: Padding(
@@ -187,7 +187,7 @@ class _BaslineGardenState extends State<BaslineGarden> {
                           Icon(Icons.location_on, color: Colors.grey),
                           SizedBox(width: 8),
                           Text(
-                            'Address: 108 Basline Garden',
+                            'Address: 108 ######',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,

@@ -3,14 +3,19 @@ import 'package:gcjm_collection_app/Screens/210Garden.dart';
 import 'package:gcjm_collection_app/Screens/213Garden.dart';
 import 'package:gcjm_collection_app/Screens/225Dispensary.dart';
 import 'package:gcjm_collection_app/Screens/261Garden.dart';
+import 'package:gcjm_collection_app/Screens/AlbionRoad.dart';
 import 'package:gcjm_collection_app/Screens/BaslineGarden.dart';
 import 'package:gcjm_collection_app/Screens/BaslineRoad.dart';
 import 'package:gcjm_collection_app/Screens/DematagodaRoad.dart';
 import 'package:gcjm_collection_app/Screens/Dp_page.dart';
+import 'package:gcjm_collection_app/Screens/General.dart';
 import 'package:gcjm_collection_app/Screens/HawanaGarden.dart';
+import 'package:gcjm_collection_app/Screens/KentRoad.dart';
 import 'package:gcjm_collection_app/Screens/Mallikarama_Dflat.dart';
 import 'package:gcjm_collection_app/Screens/Mallikarama_Gflats.dart';
 import 'package:gcjm_collection_app/Screens/Mallikarama_Road.dart';
+import 'package:gcjm_collection_app/Screens/Patty.dart';
+import 'package:gcjm_collection_app/Screens/PerthRoad.dart';
 import 'package:gcjm_collection_app/color/AppColors.dart';
 
 class Dashboard extends StatefulWidget {
@@ -163,6 +168,11 @@ class AreaGrid extends StatelessWidget {
       'HG': HawanaGarden(),
       'BR': Baslineroad(),
       'BG': BaslineGarden(),
+      'P': Patty(),
+      'PR': PerthRoad(),
+      'KR': KentRoad(),
+      'AR': AlbionRoad(),
+      'General': General(),
     };
 
     return GridView.builder(
