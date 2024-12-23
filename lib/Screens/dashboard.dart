@@ -51,20 +51,29 @@ class _DashboardState extends State<Dashboard> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: customAppBar(screenWidth),
-      body: Column(
+      body: Stack(
         children: [
-          Container(
-            color: Colors.transparent,
-            height: screenHeight * 0.36, // Responsive height
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-                child: AreaGrid(areas: areas, screenWidth: screenWidth),
+          Column(
+            children: [
+              customAppBar(screenWidth),
+              SizedBox(height: screenHeight * 0.2), // Spacer for card
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                    child: AreaGrid(areas: areas, screenWidth: screenWidth),
+                  ),
+                ),
               ),
-            ),
+            ],
+          ),
+          // Position the Collection Card
+          Positioned(
+            top: screenWidth * 0.4, // Adjust position above app bar
+            left: screenWidth * 0.05,
+            right: screenWidth * 0.05,
+            child: CollectionCard(screenWidth),
           ),
         ],
       ),
@@ -75,13 +84,20 @@ class _DashboardState extends State<Dashboard> {
     return AppBar(
       backgroundColor: AppColors.baseColor,
       elevation: 0,
-      toolbarHeight: screenWidth * 0.18, // Responsive toolbar height
+      toolbarHeight:
+          screenWidth * 0.50, // Adjust height to include the curved container
+      //curve the app bar
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
       automaticallyImplyLeading: false,
-      flexibleSpace: Stack(
-        clipBehavior: Clip.none,
+      flexibleSpace: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: screenWidth * 0.05, top: 30),
+            padding: EdgeInsets.only(left: screenWidth * 0.05, top: 25),
             child: Row(
               children: [
                 Container(
@@ -97,50 +113,30 @@ class _DashboardState extends State<Dashboard> {
               ],
             ),
           ),
-          Positioned(
-            top: screenWidth * 0.22,
-            left: 0,
-            right: 0,
-            child: curvedContainer(screenWidth),
-          ),
-          Positioned(
-            top: screenWidth * 0.42,
-            left: screenWidth * 0.05,
-            right: screenWidth * 0.05,
-            child: CollectionCard(screenWidth),
-          ),
+          // Curved Container integrated
           Container(
-            height: screenWidth * 0.5,
+            margin: EdgeInsets.only(top: screenWidth * 0.02),
+            height: screenWidth * 0.2,
+            decoration: const BoxDecoration(
+              color: AppColors.baseColor,
+            ),
+            child: const Padding(
+              padding: EdgeInsets.only(top: 4),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  'Ghaneemathul Casimiya\n Jumma Masjid',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.baseColorForG,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget curvedContainer(double screenWidth) {
-    return Container(
-      height: screenWidth * 0.3,
-      decoration: const BoxDecoration(
-        color: AppColors.baseColor,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
-        ),
-      ),
-      child: const Padding(
-        padding: EdgeInsets.only(top: 4),
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: Text(
-            'Ghaneemathul Casimiya\n Jumma Masjid',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: AppColors.baseColorForG,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
       ),
     );
   }
