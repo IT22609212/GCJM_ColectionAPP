@@ -111,4 +111,39 @@ class FirebaseService {
         .where('lastPaymentDate', isLessThan: Timestamp.fromDate(monthStart))
         .get();
   }
+
+  Future<void> initializeAreas() async {
+    final batch = FirebaseFirestore.instance.batch();
+    final areas = [
+      {'name': '210 Garden', 'shortName': '210'},
+      {'name': '225 Garden', 'shortName': '225'},
+      {'name': '213 Garden', 'shortName': '213'},
+      {'name': '261 Garden', 'shortName': '261'},
+      {'name': 'Dematagoda Road', 'shortName': 'DR'},
+      {'name': 'Dematagoda Place', 'shortName': 'DP'},
+      {'name': 'Mallikarama Road', 'shortName': 'MR'},
+      {'name': 'Mallikarama D-Flat', 'shortName': 'MDF'},
+      {'name': 'Mallikarama G-Flat', 'shortName': 'MGF'},
+      {'name': 'Hawana Garden', 'shortName': 'HG'},
+      {'name': 'Baseline Road', 'shortName': 'BR'},
+      {'name': 'Baseline Garden', 'shortName': 'BG'},
+      {'name': 'Patty', 'shortName': 'P'},
+      {'name': 'Perth Road', 'shortName': 'PR'},
+      {'name': 'Kent Road', 'shortName': 'KR'},
+      {'name': 'Albion Road', 'shortName': 'AR'},
+      {'name': 'General', 'shortName': 'General'},
+      // Add the rest of your areas...
+    ];
+
+    for (var area in areas) {
+      final docRef = FirebaseFirestore.instance.collection('areas').doc();
+      batch.set(docRef, {
+        ...area,
+        'totalUsers': 0,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    }
+
+    await batch.commit();
+  }
 }

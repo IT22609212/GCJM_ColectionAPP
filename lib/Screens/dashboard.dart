@@ -17,13 +17,23 @@ import 'package:gcjm_collection_app/Screens/Mallikarama_Road.dart';
 import 'package:gcjm_collection_app/Screens/Patty.dart';
 import 'package:gcjm_collection_app/Screens/PerthRoad.dart';
 import 'package:gcjm_collection_app/color/AppColors.dart';
+import 'package:gcjm_collection_app/models/area.dart';
+import 'package:gcjm_collection_app/services/firebase_service.dart';
 
 class Dashboard extends StatefulWidget {
+  final FirebaseService _firebaseService = FirebaseService();
+
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   widget._firebaseService.initializeAreas();
+  // }
+
   final List<String> areas = [
     '210',
     '225',
@@ -62,7 +72,19 @@ class _DashboardState extends State<Dashboard> {
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-                child: AreaGrid(areas: areas, screenWidth: screenWidth),
+                child: StreamBuilder<List<Area>>(
+                  stream: widget._firebaseService.getAreas(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    final areas = snapshot.data ?? [];
+                    return AreaGrid(areas: areas, screenWidth: screenWidth);
+                  },
+                ),
               ),
             ),
           ),
@@ -147,7 +169,7 @@ class _DashboardState extends State<Dashboard> {
 }
 
 class AreaGrid extends StatelessWidget {
-  final List<String> areas;
+  final List<Area> areas;
   final double screenWidth;
 
   const AreaGrid({Key? key, required this.areas, required this.screenWidth})
@@ -186,13 +208,14 @@ class AreaGrid extends StatelessWidget {
       ),
       itemCount: areas.length,
       itemBuilder: (context, index) {
+        final area = areas[index];
         return GestureDetector(
           onTap: () {
-            final area = areas[index];
-            if (areaScreens.containsKey(area)) {
+            if (areaScreens.containsKey(area.shortName)) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => areaScreens[area]!),
+                MaterialPageRoute(
+                    builder: (context) => areaScreens[area.shortName]!),
               );
             }
           },
@@ -211,7 +234,7 @@ class AreaGrid extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                areas[index],
+                area.shortName,
                 style: TextStyle(
                   fontSize: screenWidth * 0.04,
                   fontWeight: FontWeight.bold,
