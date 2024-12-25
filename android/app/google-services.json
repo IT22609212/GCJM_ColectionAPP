@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "126000201399",
-    "project_id": "gcjmcollectionapp",
-    "storage_bucket": "gcjmcollectionapp.firebasestorage.app"
+    "project_number": "62370760292",
+    "project_id": "gcjm-collection-app",
+    "storage_bucket": "gcjm-collection-app.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:126000201399:android:9974ad0df9d16c34641732",
+        "mobilesdk_app_id": "1:62370760292:android:9b11f99f8dc590e0d80171",
         "android_client_info": {
-          "package_name": "com.example.gcjm_"
+          "package_name": "com.example.gcjm_collection_app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA5flzgl-6LglgHvIz1hjGXbRoOusMd5is"
+          "current_key": "AIzaSyC-bB9TjgBzpZ06oTOU72RLaS_02N2mT7Y"
         }
       ],
       "services": {

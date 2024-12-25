@@ -25,9 +25,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -41,48 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB8cTgBPdKpNYTTF1rsFRwZiUeLhRCtD08',
-    appId: '1:126000201399:web:b7fc9806c086d74f641732',
-    messagingSenderId: '126000201399',
-    projectId: 'gcjmcollectionapp',
-    authDomain: 'gcjmcollectionapp.firebaseapp.com',
-    storageBucket: 'gcjmcollectionapp.firebasestorage.app',
-    measurementId: 'G-9EEHJ9Z0XB',
+    apiKey: 'AIzaSyDinyRdoGDkDbORt3ZroUq1hcw-TNIvHkw',
+    appId: '1:62370760292:web:f230224f00b9b176d80171',
+    messagingSenderId: '62370760292',
+    projectId: 'gcjm-collection-app',
+    authDomain: 'gcjm-collection-app.firebaseapp.com',
+    storageBucket: 'gcjm-collection-app.firebasestorage.app',
+    measurementId: 'G-KF4ZB97Z5S',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA5flzgl-6LglgHvIz1hjGXbRoOusMd5is',
-    appId: '1:126000201399:android:9974ad0df9d16c34641732',
-    messagingSenderId: '126000201399',
-    projectId: 'gcjmcollectionapp',
-    storageBucket: 'gcjmcollectionapp.firebasestorage.app',
+    apiKey: 'AIzaSyC-bB9TjgBzpZ06oTOU72RLaS_02N2mT7Y',
+    appId: '1:62370760292:android:9b11f99f8dc590e0d80171',
+    messagingSenderId: '62370760292',
+    projectId: 'gcjm-collection-app',
+    storageBucket: 'gcjm-collection-app.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDGLCZzXw0S-PPjxRH_LiIwgPWfSAQh-3E',
-    appId: '1:126000201399:ios:ce9a4bf6715bb366641732',
-    messagingSenderId: '126000201399',
-    projectId: 'gcjmcollectionapp',
-    storageBucket: 'gcjmcollectionapp.firebasestorage.app',
+    apiKey: 'AIzaSyDnE6tLKY4TlGPq6mt0t3pv64oMFzzQ2rA',
+    appId: '1:62370760292:ios:adadc609bb313c84d80171',
+    messagingSenderId: '62370760292',
+    projectId: 'gcjm-collection-app',
+    storageBucket: 'gcjm-collection-app.firebasestorage.app',
     iosBundleId: 'com.example.gcjmCollectionApp',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDGLCZzXw0S-PPjxRH_LiIwgPWfSAQh-3E',
-    appId: '1:126000201399:ios:ce9a4bf6715bb366641732',
-    messagingSenderId: '126000201399',
-    projectId: 'gcjmcollectionapp',
-    storageBucket: 'gcjmcollectionapp.firebasestorage.app',
-    iosBundleId: 'com.example.gcjmCollectionApp',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyB8cTgBPdKpNYTTF1rsFRwZiUeLhRCtD08',
-    appId: '1:126000201399:web:f7bea8aaa4a4403c641732',
-    messagingSenderId: '126000201399',
-    projectId: 'gcjmcollectionapp',
-    authDomain: 'gcjmcollectionapp.firebaseapp.com',
-    storageBucket: 'gcjmcollectionapp.firebasestorage.app',
-    measurementId: 'G-7SWMY0YZ8Z',
   );
 }

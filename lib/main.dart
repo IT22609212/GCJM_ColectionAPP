@@ -2,7 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gcjm_collection_app/Common_Widgets/bottom_bar.dart';
 import 'package:gcjm_collection_app/Screens/dashboard.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 import 'package:gcjm_collection_app/firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
