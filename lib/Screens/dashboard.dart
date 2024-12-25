@@ -16,6 +16,7 @@ import 'package:gcjm_collection_app/Screens/Mallikarama_Gflats.dart';
 import 'package:gcjm_collection_app/Screens/Mallikarama_Road.dart';
 import 'package:gcjm_collection_app/Screens/Patty.dart';
 import 'package:gcjm_collection_app/Screens/PerthRoad.dart';
+import 'package:gcjm_collection_app/Screens/area_page.dart';
 import 'package:gcjm_collection_app/color/AppColors.dart';
 import 'package:gcjm_collection_app/models/area.dart';
 import 'package:gcjm_collection_app/services/firebase_service.dart';
@@ -214,8 +215,7 @@ class AreaGrid extends StatelessWidget {
             if (areaScreens.containsKey(area.shortName)) {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => areaScreens[area.shortName]!),
+                MaterialPageRoute(builder: (context) => AreaPage(area: area)),
               );
             }
           },
