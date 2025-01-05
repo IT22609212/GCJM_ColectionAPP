@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gcjm_collection_app/Screens/210Garden.dart';
 import 'package:gcjm_collection_app/Screens/213Garden.dart';
@@ -17,9 +18,11 @@ import 'package:gcjm_collection_app/Screens/Mallikarama_Road.dart';
 import 'package:gcjm_collection_app/Screens/Patty.dart';
 import 'package:gcjm_collection_app/Screens/PerthRoad.dart';
 import 'package:gcjm_collection_app/Screens/area_page.dart';
+import 'package:gcjm_collection_app/Screens/collectioncard.dart';
 import 'package:gcjm_collection_app/color/AppColors.dart';
 import 'package:gcjm_collection_app/models/area.dart';
 import 'package:gcjm_collection_app/services/firebase_service.dart';
+import 'package:intl/intl.dart';
 
 class Dashboard extends StatefulWidget {
   final FirebaseService _firebaseService = FirebaseService();
@@ -29,12 +32,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   widget._firebaseService.initializeAreas();
-  // }
-
   final List<String> areas = [
     '210',
     '225',
@@ -55,6 +52,11 @@ class _DashboardState extends State<Dashboard> {
     'General',
   ];
 
+  Future<void> _onRefresh() async {
+    // Simulate fetching new data, you can trigger a refresh for Firebase data or other services
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -64,15 +66,26 @@ class _DashboardState extends State<Dashboard> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
+          // Background container
 
-          Container(
-            color: Colors.transparent,
-            height: screenHeight * 0.36, // Responsive height
+          // Fixed App Bar
+          Column(
+            children: [
+              customAppBar(screenWidth), // Fixed app bar
+              //SizedBox(height: screenHeight * 0.2), // Spacer for card
+            ],
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+
+          // Scrollable Content with RefreshIndicator
+          Positioned(
+            top: screenHeight * 0.425, // Place below the app bar
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+              child: RefreshIndicator(
+                onRefresh: _onRefresh, // Trigger the refresh
                 child: StreamBuilder<List<Area>>(
                   stream: widget._firebaseService.getAreas(),
                   builder: (context, snapshot) {
@@ -83,28 +96,18 @@ class _DashboardState extends State<Dashboard> {
                       return const Center(child: CircularProgressIndicator());
                     }
                     final areas = snapshot.data ?? [];
-                    return AreaGrid(areas: areas, screenWidth: screenWidth);
+                    return SingleChildScrollView(
+                      child: AreaGrid(areas: areas, screenWidth: screenWidth),
+                    );
                   },
-
-          Column(
-            children: [
-              customAppBar(screenWidth),
-              SizedBox(height: screenHeight * 0.2), // Spacer for card
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-                    child: AreaGrid(areas: areas, screenWidth: screenWidth),
-                  ),
-
                 ),
               ),
-            ],
+            ),
           ),
-          // Position the Collection Card
+
+          // Positioned Collection Card
           Positioned(
-            top: screenWidth * 0.4, // Adjust position above app bar
+            top: screenHeight * 0.2, // Adjust position above app bar
             left: screenWidth * 0.05,
             right: screenWidth * 0.05,
             child: CollectionCard(screenWidth),
@@ -187,7 +190,6 @@ class AreaGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, Widget> areaScreens = {
       'DP': DematagodePlace(),
-      '210': Garden210(),
       '225': Garden225(),
       '213': Garden213(),
       '261': Garden261(),
@@ -253,96 +255,6 @@ class AreaGrid extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class CollectionCard extends StatelessWidget {
-  final double screenWidth;
-
-  const CollectionCard(this.screenWidth, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Container(
-        height: screenWidth * 0.44,
-        width: screenWidth - 40,
-        decoration: BoxDecoration(
-          color: AppColors.gold,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Column(
-          children: [
-            SizedBox(height: 8),
-            Text(
-              'Date: 2024 DEC 15',
-              style: TextStyle(
-                color: AppColors.defaultWhite,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    Icon(
-                      Icons.account_balance_wallet,
-                      size: 50,
-                      color: AppColors.defaultWhite,
-                    ),
-                    Text(
-                      'Today Collection',
-                      style: TextStyle(
-                        color: AppColors.defaultWhite,
-                        fontSize: 12,
-                      ),
-                    ),
-                    Text(
-                      'Rs 15000.00',
-                      style: TextStyle(
-                        color: AppColors.defaultWhite,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Icon(
-                      Icons.account_balance_wallet,
-                      size: 50,
-                      color: AppColors.defaultWhite,
-                    ),
-                    Text(
-                      'Month Collection',
-                      style: TextStyle(
-                        color: AppColors.defaultWhite,
-                        fontSize: 12,
-                      ),
-                    ),
-                    Text(
-                      'Rs 150000.00',
-                      style: TextStyle(
-                        color: AppColors.defaultWhite,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-          ],
-        ),
-      ),
     );
   }
 }
