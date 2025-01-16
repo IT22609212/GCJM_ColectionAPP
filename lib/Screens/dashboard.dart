@@ -50,6 +50,9 @@ class _DashboardState extends State<Dashboard> {
     'P',
     'AR',
     'General',
+    "MG23",
+    "MF",
+    "MG"
   ];
 
   Future<void> _onRefresh() async {
@@ -96,6 +99,7 @@ class _DashboardState extends State<Dashboard> {
                       return const Center(child: CircularProgressIndicator());
                     }
                     final areas = snapshot.data ?? [];
+
                     return SingleChildScrollView(
                       child: AreaGrid(areas: areas, screenWidth: screenWidth),
                     );
@@ -205,6 +209,10 @@ class AreaGrid extends StatelessWidget {
       'KR': KentRoad(),
       'AR': AlbionRoad(),
       'General': General(),
+      "210": Garden210(),
+      "MG23": MallikaramaGflats(),
+      "MF": MallikaramaDflat(),
+      "MG": MallikaramaDflat(),
     };
 
     return GridView.builder(
@@ -219,6 +227,7 @@ class AreaGrid extends StatelessWidget {
       itemCount: areas.length,
       itemBuilder: (context, index) {
         final area = areas[index];
+
         return GestureDetector(
           onTap: () {
             if (areaScreens.containsKey(area.shortName)) {

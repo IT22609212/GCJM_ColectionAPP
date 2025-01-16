@@ -1,122 +1,246 @@
-// import 'dart:html' as html; // Web-specific
-// import 'package:flutter/material.dart';
-// import 'package:gcjm_collection_app/services/firebase_service.dart';
-// import 'package:gcjm_collection_app/Screens/importuser.dart';
+//statful widget
 
-// class Garden210 extends StatelessWidget {
-//   final FirebaseService firebaseService = FirebaseService();
-//   final CSVImporter csvImporter;
+import 'package:flutter/material.dart';
+import 'package:gcjm_collection_app/Screens/225Dispensary.dart';
+import 'package:gcjm_collection_app/color/AppColors.dart';
 
-//   Garden210({Key? key})
-//       : csvImporter = CSVImporter(FirebaseService()),
-//         super(key: key);
+class Garden210 extends StatefulWidget {
+  @override
+  _Garden210State createState() => _Garden210State();
+}
 
-//   Future<void> importCSV(BuildContext context) async {
-//     final html.FileUploadInputElement uploadInput =
-//         html.FileUploadInputElement();
-//     uploadInput.accept = ".csv";
-//     uploadInput.click();
+class _Garden210State extends State<Garden210> {
+  final List<String> months = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC',
+  ];
 
-//     uploadInput.onChange.listen((e) async {
-//       final files = uploadInput.files;
-//       if (files != null && files.isNotEmpty) {
-//         final reader = html.FileReader();
-//         reader.readAsText(files[0]);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          '213 Garden',
+          style: TextStyle(color: Colors.white),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: AppColors.baseColor,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildCard('GC/KPF213G'),
+                  _buildCard('001'),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Row(
+                        children: [
+                          const Text(
+                            '500.00',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              print('Edit amount');
+                            },
+                            icon: const Icon(Icons.edit, size: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Card(
+                elevation: 2,
+                child: Theme(
+                  data: Theme.of(context)
+                      .copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    title: const Text(
+                      'Select The Month',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    iconColor: AppColors.baseColor,
+                    collapsedIconColor: Colors.black,
+                    children: [
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 2.5,
+                        ),
+                        itemCount: months.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              print('Selected month: ${months[index]}');
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(4),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.baseColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    months[index],
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Center(
+                child: Text(
+                  'User Details',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.person, color: Colors.grey),
+                          SizedBox(width: 8),
+                          Text(
+                            'Name: Muhammed',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      Row(
+                        children: [
+                          Icon(Icons.phone, color: Colors.grey),
+                          SizedBox(width: 8),
+                          Text(
+                            'Phone: 077942535',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      Row(
+                        children: [
+                          Icon(Icons.location_on, color: Colors.grey),
+                          SizedBox(width: 8),
+                          Text(
+                            'Address: 213 Sridhamma Mawataha ',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.baseColor,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            onPressed: () {
+              print('Confirm button pressed');
+            },
+            child: const Text(
+              'Confirm',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
-//         reader.onLoadEnd.listen((event) async {
-//           final csvContent = reader.result as String;
-//           await csvImporter.importUsersFromCSVContent(csvContent);
-
-//           ScaffoldMessenger.of(context).showSnackBar(
-//             const SnackBar(content: Text('CSV Imported Successfully!')),
-//           );
-//         });
-//       }
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Admin Panel')),
-//       body: Center(
-//         child: ElevatedButton(
-//           onPressed: () => importCSV(context),
-//           child: const Text('Import User Data'),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// // import 'package:flutter/material.dart';
-// // import 'package:file_picker/file_picker.dart';
-// // import 'package:gcjm_collection_app/Screens/importuser.dart';
-// // import 'dart:io';
-// // import 'package:gcjm_collection_app/services/firebase_service.dart';
-
-// // class ImportCSVScreen extends StatefulWidget {
-// //   @override
-// //   _ImportCSVScreenState createState() => _ImportCSVScreenState();
-// // }
-
-// // class _ImportCSVScreenState extends State<ImportCSVScreen> {
-// //   final FirebaseService firebaseService = FirebaseService();
-// //   late final CSVImporter csvImporter;
-
-// //   @override
-// //   void initState() {
-// //     super.initState();
-// //     csvImporter = CSVImporter(firebaseService);
-// //   }
-
-// //   Future<void> _importCSV() async {
-// //     try {
-// //       // Allow user to pick a CSV file
-// //       FilePickerResult? result = await FilePicker.platform.pickFiles(
-// //         type: FileType.custom,
-// //         allowedExtensions: ['csv'],
-// //       );
-
-// //       if (result != null && result.files.single.path != null) {
-// //         File file = File(result.files.single.path!);
-
-// //         // Read file content
-// //         String csvContent = await file.readAsString();
-
-// //         // Call the import function
-// //         await csvImporter.importUsersFromCSVContent(csvContent);
-
-// //         // Show success message
-// //         ScaffoldMessenger.of(context).showSnackBar(
-// //           SnackBar(content: Text("CSV imported successfully!")),
-// //         );
-// //       } else {
-// //         // User canceled the picker
-// //         ScaffoldMessenger.of(context).showSnackBar(
-// //           SnackBar(content: Text("No file selected.")),
-// //         );
-// //       }
-// //     } catch (e) {
-// //       // Handle errors
-// //       ScaffoldMessenger.of(context).showSnackBar(
-// //         SnackBar(content: Text("Error importing CSV: $e")),
-// //       );
-// //     }
-// //   }
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       appBar: AppBar(
-// //         title: Text("Import CSV"),
-// //       ),
-// //       body: Center(
-// //         child: ElevatedButton(
-// //           onPressed: _importCSV,
-// //           child: Text("Import Users from CSV"),
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }
+  Widget _buildCard(String text) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          text,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}

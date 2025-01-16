@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gcjm_collection_app/Screens/PaymentSummary.dart';
 import 'package:gcjm_collection_app/Screens/dashboard.dart';
 import 'package:gcjm_collection_app/color/AppColors.dart';
 
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         _widget = widget;
         break;
       case 1:
-        //widget = const SupportMainPage();
+        widget = const PaymentSummary();
         _widget = widget;
         break;
       case 2:
@@ -55,17 +56,17 @@ class _HomePageState extends State<HomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Support',
+            icon: Icon(Icons.payment),
+            label: 'Payments',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.money_rounded),
-            label: 'Bills',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_rounded),
-            label: 'Menu',
-          )
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.money_rounded),
+          //   label: 'Bills',
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.menu_rounded),
+          //   label: 'Menu',
+          // )
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: AppColors.baseColor,

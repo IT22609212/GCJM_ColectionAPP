@@ -42,6 +42,11 @@ class FirebaseService {
       print("UID: $uid");
 
       final docRef = FirebaseFirestore.instance.doc(documentPath);
+      final docSnapshot = await docRef.get();
+      if (docSnapshot.exists) {
+        print("User with UID $uid already exists.");
+        return;
+      }
 
       // Add user data
       await docRef.set({
@@ -55,6 +60,7 @@ class FirebaseService {
         'subscription': subscription,
         'lastPayment': lastPayment,
         'lastPaymentDate': lastPaymentDate.toIso8601String(),
+        'uid': uid,
       });
 
       await _firestore.collection('areas').doc(areaId).update({

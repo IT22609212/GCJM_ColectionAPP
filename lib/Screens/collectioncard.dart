@@ -28,6 +28,7 @@ class _CollectionCardState extends State<CollectionCard> {
         .listen((snapshot) {
       fetchTodayCollection();
       fetchMonthCollection();
+      // fetchAllPayments();
     });
   }
 
@@ -42,45 +43,61 @@ class _CollectionCardState extends State<CollectionCard> {
         .where('paidAt', isLessThanOrEqualTo: Timestamp.fromDate(endOfDay))
         .get();
 
+    //print("Today Collection length (documents): ${snapshot.docs.length}");
+
     double total = 0;
+
     for (var doc in snapshot.docs) {
-      total += doc['amount'];
+      double amount = doc['amount']; // Monthly subscription amount
+      List<dynamic> monthsPaid = doc['month'] ?? [];
+
+      if (monthsPaid.isNotEmpty) {
+        total += amount *
+            monthsPaid.length; // Multiply amount by the number of months paid
+      }
     }
 
     setState(() {
-      todayCollection = total.round(); // Round the double to int
+      todayCollection = total.round(); // Round the total to an integer
       print("Today Collection: Rs. $todayCollection");
     });
   }
 
   Future<void> fetchMonthCollection() async {
     final now = DateTime.now();
-    final currentMonth = DateFormat('MMM').format(now).toUpperCase();
+    final currentMonth =
+        DateFormat('MMM').format(now).toUpperCase(); // e.g., "JAN"
     final currentYear = now.year;
 
-    // First, get today's payments
-    await fetchTodayCollection();
+    print("Querying month: $currentMonth, year: $currentYear");
 
-    // Then, get all payments for the current month
     final snapshot = await FirebaseFirestore.instance
         .collection('payments')
-        .where('month', isEqualTo: currentMonth)
-        .where('year', isEqualTo: currentYear)
+        .where('month',
+            arrayContains: currentMonth) // Use arrayContains for month
+        .where('year', isEqualTo: currentYear) // Filter by year
         .get();
 
     double total = 0;
     for (var doc in snapshot.docs) {
-      total += doc['amount']; // Add payment amount to total
+      total += doc['amount']; // Sum the payment amounts
+      print("Document data: ${doc.data()}");
     }
 
-    // Add today's collection to the total
-    total += todayCollection;
-
     setState(() {
-      monthCollection = total.round(); // Round the double to int
-      print("Month Collection: Rs. $monthCollection");
+      monthCollection = total.round(); // Round the total to an integer
+      print("Total Month Collection: Rs. $monthCollection");
     });
   }
+
+  // Future<void> fetchAllPayments() async {
+  //   final snapshot =
+  //       await FirebaseFirestore.instance.collection('payments').get();
+
+  //   for (var doc in snapshot.docs) {
+  //     print("Document ID: ${doc.id}, Data: ${doc.data()}");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

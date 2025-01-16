@@ -42,6 +42,10 @@ class _AreaPageState extends State<AreaPage> {
   List<String> selected = [];
   List<String> selectedMonths = [];
 
+  bool isAllSelected = false; // Track if "Select All" is checked
+  bool isExpanded = false; // Track the expanded state of ExpansionTile
+  int selectedYear = DateTime.now().year; // Default to the current year
+
   Future<void> _fetchPaidMonths() async {
     if (selectedUserData == null) return;
 
@@ -50,32 +54,27 @@ class _AreaPageState extends State<AreaPage> {
       final paymentsSnapshot = await FirebaseFirestore.instance
           .collection('payments')
           .where('userId', isEqualTo: selectedUserData?['uid'])
+          .where('year', isEqualTo: selectedYear) // Filter by selected year
           .get();
 
       print(
           'Fetched Documents: ${paymentsSnapshot.docs.map((doc) => doc.data()).toList()}');
 
       if (paymentsSnapshot.docs.isNotEmpty) {
-        // Initialize an empty list to store the months paid
         List<String> monthsPaid = [];
 
-        // Iterate over the documents
         for (var doc in paymentsSnapshot.docs) {
           var monthData = doc.data()['month'];
 
-          // Check if monthData is a List or a String
           if (monthData is List) {
-            // If it's a list, add all months to the monthsPaid list
             monthsPaid.addAll(monthData.cast<String>());
           } else if (monthData is String) {
-            // If it's a single string, add it to the list
             monthsPaid.add(monthData);
           }
         }
 
         print('Raw Months Paid: $monthsPaid');
 
-        // Map of short form to month order
         const monthOrder = {
           'JAN': 1,
           'FEB': 2,
@@ -91,7 +90,6 @@ class _AreaPageState extends State<AreaPage> {
           'DEC': 12,
         };
 
-        // Remove duplicates and sort months based on predefined order
         monthsPaid = monthsPaid.toSet().toList(); // Remove duplicates
         monthsPaid.sort((a, b) => monthOrder[a]!.compareTo(monthOrder[b]!));
 
@@ -101,7 +99,6 @@ class _AreaPageState extends State<AreaPage> {
           paidMonths = monthsPaid.cast<String>();
         });
       } else {
-        // Handle case where no documents are found
         setState(() {
           paidMonths = [];
         });
@@ -346,9 +343,6 @@ class _AreaPageState extends State<AreaPage> {
     );
   }
 
-  bool isAllSelected = false; // Track if "Select All" is checked
-  bool isExpanded = false; // Track the expanded state of ExpansionTile
-
   Widget _buildMonthSelector() {
     return Card(
       elevation: 2,
@@ -370,6 +364,37 @@ class _AreaPageState extends State<AreaPage> {
             });
           },
           children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Select Year:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  DropdownButton<int>(
+                    value: selectedYear,
+                    items: [
+                      DateTime.now().year, // Current year
+                      DateTime.now().year - 1, // Previous year
+                    ].map((year) {
+                      return DropdownMenuItem<int>(
+                        value: year,
+                        child: Text('$year'),
+                      );
+                    }).toList(),
+                    onChanged: (int? year) {
+                      setState(() {
+                        selectedYear = year ?? DateTime.now().year;
+                        _fetchPaidMonths(); // Fetch months for the new year
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+
             // Checkbox for "Select All Unpaid Months"
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -729,23 +754,34 @@ class _AreaPageState extends State<AreaPage> {
   }
 
   Future<void> _confirmPayment() async {
-    if (selectedMonths == null) {
+    if (selectedMonths == null || selectedMonths!.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please select a month')),
       );
       return;
     }
+
     print("Selected Months--- confirm: $selectedMonths");
+    print("Selected User Data: $selectedUserData");
+    print("Selected User UID: ${selectedUserData?['uid']}");
+
+    if (selectedUserData?['uid'] == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User ID not found')),
+      );
+      return;
+    }
+
     try {
       // Record payment in 'payments' collection
       await FirebaseFirestore.instance.collection('payments').add({
         'userId':
             selectedUserData?['uid'], // Ensure 'uid' is the user ID (String)
-        'areaId': widget.area.id,
+        'areaId': widget.area.areaCode,
         'amount':
             selectedUserData?['subscription'], // Use 'subscription' for amount
         'month': selectedMonths,
-        'year': DateTime.now().year,
+        'year': selectedYear,
         'paidAt': FieldValue.serverTimestamp(),
         'status': 'completed',
       });
@@ -764,6 +800,10 @@ class _AreaPageState extends State<AreaPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Payment recorded successfully')),
       );
+      setState(() {
+        selectedMonths = []; // Clear selected months
+        selectedUserData = null; // Clear selected user
+      });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error recording payment: $e')),
